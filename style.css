@@ -200,63 +200,197 @@ h1 {
   font-weight: 300;
 }
 
-.social-links {
+/* Social Logos Styles */
+.social-logos {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 15px;
   margin-bottom: 30px;
 }
 
-.social-button {
+.social-logo {
   display: flex;
   align-items: center;
-  padding: 12px 20px;
-  border-radius: 50px;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  color: white;
+  font-size: 20px;
   text-decoration: none;
   transition: var(--transition);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
   opacity: 0;
   transform: translateY(20px);
+}
+
+.social-logo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  z-index: -1;
+  transition: var(--transition);
+}
+
+.social-logo:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-logo:hover::before {
+  transform: scale(1.1);
+}
+
+/* Specific colors for each social logo */
+.social-logo:nth-child(1)::before { background: #1877F2; } /* Facebook */
+.social-logo:nth-child(2)::before { background: linear-gradient(45deg, #405DE6, #833AB4, #E1306C); } /* Instagram */
+.social-logo:nth-child(3)::before { background: #000000; } /* TikTok */
+.social-logo:nth-child(4)::before { background: #25D366; } /* WhatsApp */
+.social-logo:nth-child(5)::before { background: #FF0000; } /* YouTube */
+.social-logo:nth-child(6)::before { background: #1DA1F2; } /* Twitter */
+
+/* Video Section Styles */
+.video-section {
+  margin-bottom: 40px;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+}
+
+.video-container:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Slideshow Styles */
+.slideshow-container {
+  position: relative;
+  margin-bottom: 40px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
   color: white;
-  box-shadow: var(--shadow-md);
-  font-weight: 500;
-  min-width: 140px;
+  transform: translateY(0);
+  transition: var(--transition);
+}
+
+.slide-caption h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.5rem;
+}
+
+.slide-caption p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.slideshow-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.slide-prev, .slide-next {
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--dark-color);
+  font-size: 18px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-.social-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
+.slide-prev:hover, .slide-next:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.slide-dots {
+  display: flex;
+  gap: 10px;
+}
+
+.slide-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
   transition: var(--transition);
 }
 
-.facebook { 
-  background-color: #1877F2; 
-  border: 1px solid #166FE5;
-}
-
-.instagram { 
-  background: linear-gradient(45deg, #405DE6, #833AB4, #E1306C);
-  border: 1px solid #C13584;
-}
-
-.tiktok { 
-  background-color: #000000;
-  border: 1px solid #333333;
-}
-
-.whatsapp {
-  background-color: #25D366;
-  border: 1px solid #128C7E;
-}
-
-.social-button:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.social-button:hover .social-icon {
+.slide-dot.active {
+  background: white;
   transform: scale(1.2);
 }
 
@@ -419,14 +553,18 @@ h1 {
     height: 130px;
   }
   
-  .social-links {
+  .social-logos {
     gap: 12px;
   }
   
-  .social-button {
-    min-width: 120px;
-    padding: 10px 15px;
-    font-size: 0.9rem;
+  .social-logo {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+  
+  .slideshow {
+    height: 300px;
   }
   
   .work-gallery {
@@ -454,14 +592,18 @@ h1 {
     height: 110px;
   }
   
-  .social-links {
-    flex-direction: column;
-    align-items: stretch;
+  .social-logos {
+    gap: 8px;
   }
   
-  .social-button {
-    width: 100%;
-    justify-content: center;
+  .social-logo {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .slideshow {
+    height: 200px;
   }
   
   .work-gallery {
@@ -470,6 +612,6 @@ h1 {
   
   .contact-btn {
     width: 100%;
-    padding: 12px;
+    padding: 0px;
   }
 }

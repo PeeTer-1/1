@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // กำหนด animation สำหรับแต่ละ element
     const workItems = document.querySelectorAll('.work-item');
-    const socialButtons = document.querySelectorAll('.social-button');
+    const socialLogos = document.querySelectorAll('.social-logo');
     
     // เริ่มต้นตั้งค่าเริ่มต้น
     workItems.forEach(item => {
@@ -32,14 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
         item.style.transition = 'all 0.5s ease';
     });
     
-    socialButtons.forEach(button => {
-        button.style.opacity = '0';
-        button.style.transform = 'translateY(15px)';
-        button.style.transition = 'all 0.5s ease';
+    socialLogos.forEach(logo => {
+        logo.style.opacity = '0';
+        logo.style.transform = 'translateY(15px)';
+        logo.style.transition = 'all 0.5s ease';
     });
     
     // เรียกใช้ animation
-    animateOnScroll([...workItems, ...socialButtons]);
+    animateOnScroll([...workItems, ...socialLogos]);
 
     // เอฟเฟกต์พาร์ทิเคิลแบบสุ่ม
     function createParticles() {
@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // เพิ่ม hover effect ให้กับ work items และ social buttons
+    // เพิ่ม hover effect ให้กับ work items และ social logos
     addHoverEffect(workItems);
-    addHoverEffect(socialButtons);
+    addHoverEffect(socialLogos);
 
     // เอฟเฟกต์เมื่อโฮเวอร์ที่โปรไฟล์
     const profile = document.querySelector('.profile');
@@ -122,4 +122,66 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+    // Slideshow Functionality
+    const slideshow = document.querySelector('.slideshow');
+    if (slideshow) {
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.querySelector('.slide-dots');
+        const prevBtn = document.querySelector('.slide-prev');
+        const nextBtn = document.querySelector('.slide-next');
+        
+        let currentSlide = 0;
+        let slideInterval;
+        
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('slide-dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+        
+        const dots = document.querySelectorAll('.slide-dot');
+        
+        // Start slideshow
+        startSlideShow();
+        
+        function startSlideShow() {
+            slideInterval = setInterval(() => {
+                goToSlide((currentSlide + 1) % slides.length);
+            }, 5000);
+        }
+        
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (index + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        // Navigation
+        prevBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            goToSlide(currentSlide - 1);
+            startSlideShow();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            goToSlide(currentSlide + 1);
+            startSlideShow();
+        });
+        
+        // Pause on hover
+        slideshow.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval);
+        });
+        
+        slideshow.addEventListener('mouseleave', startSlideShow);
+    }
 });
